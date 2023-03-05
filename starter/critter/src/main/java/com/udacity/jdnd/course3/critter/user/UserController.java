@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -51,4 +52,32 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
+//    -------- Helper methods: DTO Conversions -------
+
+    // Customer --------------------------------------
+
+    private static CustomerDTO convertEntityToCustomerDTO(Customer customer) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer, customerDTO);
+        return customerDTO;
+    }
+
+    private static Customer convertCustomerDTOToEntity(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        return customer;
+    }
+
+    // Employee --------------------------------------
+    private static EmployeeDTO convertEntityToEmployeeDTO(Employee employee) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        BeanUtils.copyProperties(employee, employeeDTO);
+        return employeeDTO;
+    }
+
+    private static Employee convertEmployeeDTOToEntity(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        return employee;
+    }
 }
