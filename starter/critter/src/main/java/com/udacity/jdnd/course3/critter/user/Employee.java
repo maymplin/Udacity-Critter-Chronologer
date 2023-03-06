@@ -3,25 +3,25 @@ package com.udacity.jdnd.course3.critter.user;
 import com.udacity.jdnd.course3.critter.AbstractEntity;
 import org.hibernate.annotations.Nationalized;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Set;
 
 @Entity
 public class Employee extends AbstractEntity {
 
-    @NotBlank
+    @Column(nullable = false)
     @Nationalized
     private String name;
-    @NotEmpty
+
     @Enumerated
+    @ElementCollection
+    @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<EmployeeSkill> skills;
-    @NotEmpty
+
     @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<DayOfWeek> daysAvailable;
 
     public String getName() {

@@ -1,11 +1,14 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Handles web requests related to Users.
@@ -16,6 +19,9 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
@@ -34,12 +40,15 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        Employee employee = convertEmployeeDTOToEntity(employeeDTO);
+        employee = employeeService.saveEmployee(employee);
+        return convertEntityToEmployeeDTO(employee);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        Employee employee = employeeService.findEmployee(employeeId);
+        return convertEntityToEmployeeDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -49,7 +58,13 @@ public class UserController {
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+//       List<Employee> employees = employeeService.findEmployeesForService(employeeDTO.getDate()
+//       );
+
+       return employeeService.findEmployeesForService(employeeDTO)
+               .stream()
+               .map(employee -> convertEntityToEmployeeDTO(employee))
+               .collect(Collectors.toList());
     }
 
 //    -------- Helper methods: DTO Conversions -------

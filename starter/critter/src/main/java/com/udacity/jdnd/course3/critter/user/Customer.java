@@ -1,23 +1,24 @@
 package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.AbstractEntity;
+import com.udacity.jdnd.course3.critter.pet.Pet;
 import org.hibernate.annotations.Nationalized;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
 public class Customer extends AbstractEntity {
 
-    @NotBlank
+    @Column(nullable = false)
     @Nationalized
     private String name;
     private String phoneNumber;
     private String notes;
     @OneToMany(mappedBy = "customer")
-    private List<Long> petIds;
+    private List<Pet> pets;
 
     public String getName() {
         return name;
@@ -43,11 +44,11 @@ public class Customer extends AbstractEntity {
         this.notes = notes;
     }
 
-    public List<Long> getPetIds() {
-        return petIds;
+    public List<Pet> getPets() {
+        return pets;
     }
 
-    public void setPetIds(List<Long> petIds) {
-        this.petIds = petIds;
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 }
