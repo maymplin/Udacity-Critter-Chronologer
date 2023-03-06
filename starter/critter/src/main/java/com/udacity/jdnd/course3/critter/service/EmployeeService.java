@@ -6,6 +6,7 @@ import com.udacity.jdnd.course3.critter.user.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EmployeeService {
 
     @Autowired
@@ -39,17 +41,10 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-//    public List<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
-//        DayOfWeek dayOfWeek = date.getDayOfWeek();
-//        List<Employee> employees = employeeRepository.getAllByDaysAvailableContains(dayOfWeek);
-//
-//        return employees.stream()
-//                .filter(employee -> employee.getSkills().containsAll(skills))
-//                .collect(Collectors.toList());
-//    }
-
     public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable, long employeeId) {
-
+        Employee employee = employeeRepository.findById(employeeId).get();
+        employee.setDaysAvailable(daysAvailable);
+        employeeRepository.save(employee);
     }
 
 
