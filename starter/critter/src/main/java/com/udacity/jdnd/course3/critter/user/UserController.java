@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.service.CustomerService;
 import com.udacity.jdnd.course3.critter.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,23 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
+    private CustomerService customerService;
+    @Autowired
     private EmployeeService employeeService;
 
     @PostMapping("/customer")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+        Customer customer = convertCustomerDTOToEntity(customerDTO);
+        customer = customerService.saveCustomer(customer);
+        return convertEntityToCustomerDTO(customer);
     }
 
     @GetMapping("/customer")
     public List<CustomerDTO> getAllCustomers(){
-        throw new UnsupportedOperationException();
+        return customerService.getAllCustomers()
+                .stream()
+                .map(customer -> convertEntityToCustomerDTO(customer))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/customer/pet/{petId}")
