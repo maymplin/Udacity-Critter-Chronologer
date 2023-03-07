@@ -57,17 +57,17 @@ public class PetController {
 
 //    -------- Helper methods: DTO Conversions -------
 
-    private static PetDTO convertEntityToPetDTO(Pet pet) {
+    private PetDTO convertEntityToPetDTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         BeanUtils.copyProperties(pet, petDTO);
-
         petDTO.setOwnerId(pet.getCustomer().getId());
         return petDTO;
     }
 
-    private static Pet convertPetDTOToEntity(PetDTO petDTO) {
+    private Pet convertPetDTOToEntity(PetDTO petDTO) {
         Pet pet = new Pet();
         BeanUtils.copyProperties(petDTO, pet);
+        pet.setCustomer(customerService.findCustomer(petDTO.getOwnerId()));
         return pet;
     }
 
