@@ -15,6 +15,8 @@ public class ScheduleService {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+//    @Autowired
+//    private CustomerService customerService;
     @Autowired
     private EmployeeService employeeService;
     @Autowired
@@ -44,6 +46,18 @@ public class ScheduleService {
                 .filter(schedule ->
                         schedule.getEmployees().contains(employeeService.findEmployee(employeeId)))
                 .collect(Collectors.toList());
+    }
+
+    public List<Schedule> getScheduleForCustomer(long customerId) {
+        List<Pet> pets = petService.getPetsByOwner(customerId);
+
+        List<Schedule> schedules = new ArrayList<>();
+
+        for (Pet pet : pets) {
+            schedules.addAll(getScheduleForPet(pet.getId()));
+        }
+
+        return schedules;
     }
 
 }

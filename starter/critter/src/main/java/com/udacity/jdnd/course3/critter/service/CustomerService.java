@@ -29,10 +29,6 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-//    public Customer findByPets(Pet pet) {
-//        return customerRepository.findByPets(pet);
-//    }
-
     public void addPet(Pet pet, Customer customer) {
         if (customer.getPets() == null) {
             List<Pet> pets = new ArrayList<>(
