@@ -1,8 +1,6 @@
 package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.pet.Pet;
-import com.udacity.jdnd.course3.critter.pet.PetDTO;
-import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,5 @@ public class PetService {
     public List<Pet> getPetsByOwner(long ownerId) {
         return customerService.findCustomer(ownerId).getPets();
     }
-
 
 }

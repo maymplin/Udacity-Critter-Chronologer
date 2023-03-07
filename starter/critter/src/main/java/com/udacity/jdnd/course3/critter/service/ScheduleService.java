@@ -15,8 +15,6 @@ public class ScheduleService {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
-//    @Autowired
-//    private CustomerService customerService;
     @Autowired
     private EmployeeService employeeService;
     @Autowired

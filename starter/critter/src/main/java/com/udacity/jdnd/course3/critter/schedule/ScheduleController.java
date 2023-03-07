@@ -37,36 +37,28 @@ public class ScheduleController {
     public List<ScheduleDTO> getAllSchedules() {
         List<Schedule> schedules = scheduleService.getAllSchedules();
 
-        return schedules.stream()
-                .map(schedule -> convertEntityToScheduleDTO(schedule))
-                .collect(Collectors.toList());
+        return convertEntityListToScheduleDTOList(schedules);
     }
 
     @GetMapping("/pet/{petId}")
     public List<ScheduleDTO> getScheduleForPet(@PathVariable long petId) {
         List<Schedule> schedules = scheduleService.getScheduleForPet(petId);
 
-        return schedules.stream()
-                .map(schedule -> convertEntityToScheduleDTO(schedule))
-                .collect(Collectors.toList());
+        return convertEntityListToScheduleDTOList(schedules);
     }
 
     @GetMapping("/employee/{employeeId}")
     public List<ScheduleDTO> getScheduleForEmployee(@PathVariable long employeeId) {
         List<Schedule> schedules = scheduleService.getScheduleForEmployee(employeeId);
 
-        return schedules.stream()
-                .map(schedule -> convertEntityToScheduleDTO(schedule))
-                .collect(Collectors.toList());
+        return convertEntityListToScheduleDTOList(schedules);
     }
 
     @GetMapping("/customer/{customerId}")
     public List<ScheduleDTO> getScheduleForCustomer(@PathVariable long customerId) {
         List<Schedule> schedules = scheduleService.getScheduleForCustomer(customerId);
 
-        return schedules.stream()
-                .map(schedule -> convertEntityToScheduleDTO(schedule))
-                .collect(Collectors.toList());
+        return convertEntityListToScheduleDTOList(schedules);
     }
 
 //    -------- Helper methods: DTO Conversions -------
@@ -117,5 +109,11 @@ public class ScheduleController {
         }
 
         return scheduleDTO;
+    }
+
+    public List<ScheduleDTO> convertEntityListToScheduleDTOList(List<Schedule> schedules) {
+        return schedules.stream()
+                .map(schedule -> convertEntityToScheduleDTO(schedule))
+                .collect(Collectors.toList());
     }
 }

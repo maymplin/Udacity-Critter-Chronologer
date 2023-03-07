@@ -5,7 +5,6 @@ import com.udacity.jdnd.course3.critter.service.PetService;
 import com.udacity.jdnd.course3.critter.user.Customer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +27,7 @@ public class PetController {
         Pet pet = convertPetDTOToEntity(petDTO);
         Customer owner = customerService.findCustomer(petDTO.getOwnerId());
         pet = petService.savePet(pet, owner);
-        System.out.println("######### returned pet id: " + pet.getCustomer().getId() + " #########");
-        System.out.println("######### returned petDTO id: " + convertEntityToPetDTO(pet).getOwnerId() + " #########");
+
         return convertEntityToPetDTO(pet);
     }
 
@@ -41,18 +39,12 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        return petService.getPets()
-                .stream()
-                .map(pet -> convertEntityToPetDTO(pet))
-                .collect(Collectors.toList());
+        return convertEntityListToPetDTOList(petService.getPets());
     }
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        return petService.getPetsByOwner(ownerId)
-                .stream()
-                .map(pet -> convertEntityToPetDTO(pet))
-                .collect(Collectors.toList());
+        return convertEntityListToPetDTOList(petService.getPetsByOwner(ownerId));
     }
 
 //    -------- Helper methods: DTO Conversions -------
@@ -69,6 +61,12 @@ public class PetController {
         BeanUtils.copyProperties(petDTO, pet);
         pet.setCustomer(customerService.findCustomer(petDTO.getOwnerId()));
         return pet;
+    }
+
+    private List<PetDTO> convertEntityListToPetDTOList(List<Pet> pets) {
+        return pets.stream()
+                .map(pet -> convertEntityToPetDTO(pet))
+                .collect(Collectors.toList());
     }
 
 }
