@@ -14,7 +14,7 @@ public class Employee extends AbstractEntity {
     @Nationalized
     private String name;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @ElementCollection
     @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<EmployeeSkill> skills;
